@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { initialWorkouts, generateWorkout } from "./Workouts.js";
 import "./App.css";
+import Workout from "./Workout.js";
+import AddNewWorkoutButton from "./AddNewWorkoutButton.js";
+import ShowDoneOnly from "./ShowDoneOnly.js";
 
 function App() {
   const [workouts, setWorkouts] = useState(initialWorkouts);
@@ -47,28 +50,17 @@ function App() {
   return (
     <div className="App">
       <h1>🏋️‍♀️Workout Generator</h1>
-      <button onClick={addNewWorkout}>Add New Workout</button>
-      <div>
-        <input type="checkbox" onChange={setChecked} />
+      <AddNewWorkoutButton addNewWorkout={addNewWorkout} />
+      <ShowDoneOnly setCheck={setChecked} />
 
-        <label for="show-done"> Show done only</label>
-      </div>
       <ul>
         {workouts.map((workout, index) => (
-          <li key={index}>
-            <p>
-              {workout.sets}x sets of{" "}
-              <strong>
-                {workout.reps}x{workout.exercise}
-              </strong>{" "}
-              with {workout.rest} seconds rest
-            </p>
-            {!workout.done && (
-              <button onClick={(e) => completeWorkout(workout)}>Done</button>
-            )}
-            {workout.done && <p>✅</p>}
-            <button onClick={(e) => deleteWorkout(workout)}>Delete</button>
-          </li>
+          <Workout
+            workout={workout}
+            index={index}
+            completeWorkout={completeWorkout}
+            deleteWorkout={deleteWorkout}
+          />
         ))}
       </ul>
     </div>
